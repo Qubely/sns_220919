@@ -20,5 +20,5 @@ public class UserController {
 		model.addAttribute("viewName", "user/signIn");
 		return "template/layout";
 	}
-	
+	s
 }
