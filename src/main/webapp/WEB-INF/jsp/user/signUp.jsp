@@ -40,7 +40,7 @@
 			
 			<br>
 			<div class="d-flex justify-content-center m-3">
-				<button type="button" id="signUpBtn" class="btn btn-info">가입하기</button>
+				<button type="submit" id="signUpBtn" class="btn btn-info">가입하기</button>
 			</div>
 		</form>
 	</div>
@@ -64,7 +64,79 @@
 			// 중복 확인
 			$.ajax({
 				url:"/user/is_duplicated_id"
-			})
+				, data:{"loginId":loginId}
+			
+				, success:function(data) {
+					if (data.code == 1) {
+						if (data.result) {
+							$('#idCheckDuplicated').removeClass('d-none');
+						} else {
+							$('#idCheckOk').removeClass('d-none');
+						}
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				
+				, error:function(e) {
+					alert("중복 확인에 실패했습니다.");
+				}
+			});
+			
+		});
+		
+		$('#signUpForm').on('submit', function(e) {
+			e.preventDefault(); // 서브밋 기능 중단
+			
+			let loginId = $('input[name=loginId]').val().trim();
+			let password = $('input[name=password]').val().trim();
+			let confirmPassword = $('input[name=confirmPassword]').val().trim();
+			let name = $('input[name=name]').val().trim();
+			let email = $('input[name=email]').val().trim();
+			
+			if (loginId == '') {
+				alert("아이디를 입력하세요");
+				return false;
+			}
+			if (password == '') {
+				alert("비밀번호를 입력하세요");
+				return false;
+			}
+			if (confirmPassword == '') {
+				alert("비밀번호 확인이 비어있습니다.");
+				return false;
+			}
+			if (confirmPassword != password) {
+				alert("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+			if (name == '') {
+				alert("이름을 입력하세요");
+				return false;
+			}
+			if (email == '') {
+				alert("이메일을 입력하세요");
+				return false;
+			}
+			
+			// 아이디 중복확인 완료 됐는지 확인 -> idCheckOk d-none이 있는지 확인
+			if ($('#idCheckOk').hasClass('d-none')) {
+				alert("아이디 중복확인을 다시 해주세요.");
+				return false;
+			}
+			
+			let url = $(this).attr('action');
+			let params = $(this).serialize();
+			
+			$.post(url, params)
+			.done(function(data) {
+				if (data.code == 1) {
+					alert("가입을 환영합니다! 로그인 해주세요.");
+					location.href = "/user/sign_in_view";
+				} else {
+					alert(data.errorMessage);
+				}
+			});
 			
 		});
 		
