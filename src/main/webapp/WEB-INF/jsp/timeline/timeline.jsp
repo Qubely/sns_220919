@@ -89,3 +89,62 @@
 		<%--// 타임라인 영역 끝  --%>
 	</div>
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		
+		
+		// 글 저장
+		$('#writeBtn').on('click', function() {
+			let content = $('#writeTextArea').val();
+			let file = $('#file').val();
+			
+			if (content == "") {
+				alert("글 내용을 입력해주세요.");
+				return;
+			}
+			
+			if (file == "") {
+				alert("업로드할 사진을 넣어주세요.");
+				return;
+			} else {
+				let ext = file.split(".").pop().toLowerCase();
+				if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'gif']) == -1) {
+					alert("이미지 파일만 업로드 할 수 있습니다.");
+					$('#file').val("");
+					return;
+				}
+			}
+			
+			// 서버 - AJAX
+			
+			let formData = new FormData();
+			formData.append("content", content);
+			formData.append("file", $('#file')[0].files[0]);
+			
+			$.ajax({
+				type:"post"
+				, url:"/post/create"
+				, data:formData
+				, enctype:"multipart/form-data"
+				, processData:false
+				, contentType:false
+				
+				, success:function(data) {
+					if (data.code == 1) {
+						alert("새 타임라인이 게시되었습니다.");
+						location.href = "/timeline/timeline_view"
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error:function(e) {
+					alert("타임라인 게시에 실패했습니다.");
+				}
+			});
+			
+			
+		});
+	});
+</script>
