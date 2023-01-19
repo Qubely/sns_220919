@@ -49,7 +49,9 @@
 <script>
 	$(document).ready(function() {
 		
-		$('#loginIdCheckBtn').on('click', function() {
+		$('#loginIdCheckBtn').on('click', function(e) {
+			e.preventDefault();
+			
 			let loginId = $('input[name=loginId]').val().trim();
 			
 			$('#idCheckLength').addClass('d-none');

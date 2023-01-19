@@ -67,21 +67,27 @@
 					
 					<%-- 댓글 목록 --%>
 					<div class="card-comment-list m-2">
-						<div class="card-comment m-1">
-							<span class="font-weight-bold">댓글쓰니:</span>
-							<span>댓글 내용11111</span>
-							
-							<%-- 댓글 삭제 버튼 --%>
-							<a href="#" class="commentDelBtn">
-								<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
-							</a>
-						</div>
+						<c:forEach var="comment" items="${commentList}">
+							<c:if test="${post.id eq comment.postId}">
+							<div class="card-comment m-1">
+								<span class="font-weight-bold">${comment.userId}:</span>
+								<span>${comment.content}</span>
+								
+								<%-- 댓글 삭제 버튼 --%>
+								<a href="#" class="commentDelBtn">
+									<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
+								</a>
+							</div>
+							</c:if>
+						</c:forEach>
 						
 						<%-- 댓글 쓰기 --%>
-						<div class="comment-write d-flex border-top mt-2">
-							<input type="text" class="form-control border-0 mr-2" placeholder="댓글 달기"/> 
-							<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>
-						</div>
+						<c:if test="${not empty userId}">
+							<div class="comment-write d-flex border-top mt-2">
+								<input type="text" class="form-control border-0 mr-2" placeholder="댓글 달기"/> 
+								<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
+							</div>
+						</c:if>
 					</div>
 					<%--// 댓글 목록 끝 --%>
 				</div>
@@ -119,7 +125,7 @@
 			
 			// 유효성 통과한 이미지는 상자에 업로드 된 파일 이름 노출
 			$('#fileName').text(fileName);
-		});
+		});	// 이미지 유효성 검사 끝
 		
 		// 글 저장
 		$('#writeBtn').on('click', function() {
@@ -160,9 +166,42 @@
 				, error:function(e) {
 					alert("타임라인 게시에 실패했습니다.");
 				}
+			});	// ajax 끝
+		});	// 글쓰기 버튼 끝
+		
+		// 댓글 쓰기
+		$('.comment-btn').on('click', function() {
+			// 글번호, 댓글 내용
+			let postId = $(this).data('post-id');
+			// 지금 클릭된 게시버튼의 형제인 input 태그를 가져온다. siblings
+			let comment = $(this).siblings('input').val().trim();
+			
+			if (comment == "") {
+				alert("댓글 내용을 입력해주세요");
+				return;
+			}
+			
+			// ajax
+			$.ajax({
+				type:"post"
+				, url:"/comment/create"
+				, data:{"postId":postId, "content":comment}
+			
+				,success:function(data) {
+					if (data.code == 1) {
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				,error:function(jqXHR, textStatus, errorThrown) {
+					var errorMsg = jqXHR.responseJSON.status;
+					alert(errorMsg + ":" + textStatus);
+				}
 			});
 			
-			
 		});
+		
+		
 	});
 </script>
