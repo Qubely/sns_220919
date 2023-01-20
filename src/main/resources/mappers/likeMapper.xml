@@ -11,7 +11,7 @@
  			`postId` = #{postId}
  	</select>
  	
- 	<select id="selectLikeByUserIdPostId" parameterType="int" resultType="int">
+ 	<select id="selectLikeByUserIdPostId" parameterType="map" resultType="int">
  		SELECT COUNT(*)
  		FROM
  			`like`
@@ -32,7 +32,7 @@
  			AND `postId` = #{postId}
  	</select>
  	
- 	<delete id="deleteLikeByUserId" parameterType="int">
+ 	<delete id="deleteLikeByUserId" parameterType="map">
  		DELETE FROM `like`
  		WHERE
  			`userId` = #{userId}
