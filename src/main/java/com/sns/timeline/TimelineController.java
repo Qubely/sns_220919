@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.sns.comment.bo.CommentBO;
-import com.sns.comment.model.Comment;
 import com.sns.post.bo.PostBO;
-import com.sns.post.model.Post;
+import com.sns.timeline.bo.TimelineBO;
+import com.sns.timeline.model.CardView;
 
 @Controller
 public class TimelineController {
@@ -21,15 +21,22 @@ public class TimelineController {
 	@Autowired
 	private CommentBO commentBO;
 	
+	@Autowired
+	private TimelineBO timelineBO;
+	
 	@GetMapping("/timeline/timeline_view")
 	public String timelineView(Model model) {
 		model.addAttribute("viewName", "timeline/timeline");
 		
-		List<Post> postList = postBO.getPostList();
-		model.addAttribute("postList", postList);
+//		List<Post> postList = postBO.getPostList();
+//		model.addAttribute("postList", postList);
 		
-		List<Comment> commentList = commentBO.getCommentList();
-		model.addAttribute("commentList", commentList);
+//		List<Comment> commentList = commentBO.getCommentList();
+//		model.addAttribute("commentList", commentList);
+		
+		List<CardView> cardList = timelineBO.generateCardList();
+		model.addAttribute("cardList", cardList);
+		
 		
 		return "template/layout";
 	}

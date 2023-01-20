@@ -29,4 +29,5 @@ public class PostBO {
 		return postDAO.selectPostList();
 	}
 	
+	
 }
