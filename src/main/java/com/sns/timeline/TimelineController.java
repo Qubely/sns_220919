@@ -36,16 +36,8 @@ public class TimelineController {
 			, HttpSession session) {
 		model.addAttribute("viewName", "timeline/timeline");
 		
-		List<CardView> cardList = timelineBO.generateCardList();
+		List<CardView> cardList = timelineBO.generateCardList((Integer)session.getAttribute("userId"));
 		model.addAttribute("cardList", cardList);
-		
-		Integer userId = (Integer)session.getAttribute("userId");
-		if (userId != null) {
-			Integer rowCount = likeBO.getLikeByUserId(userId);
-			if (rowCount != null) {
-				model.addAttribute("isLike", rowCount);
-			}
-		}
 		
 		return "template/layout";
 	}

@@ -6,11 +6,23 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikeDAO {
 	
-	public Integer selectLikeByUserId(int userId);
+	public Integer selectLikeByPostId(int postId);
 	
-	public int deleteLikeByUserId(int userId);
+	public Integer selectLikeByUserIdPostId(
+			@Param("userId") int userId
+			, @Param("postId") int postId);
+	
+	public Boolean isDuplicantLikeByUserIdPostId(
+			@Param("userId") int userId
+			, @Param("postId") int postId);
+	
+	public int deleteLikeByUserId(
+			@Param("userId") int userId
+			, @Param("postId") int postId);
 	
 	public int insertLike(
 			@Param("userId") int userId
 			, @Param("postId") int postId);
+	
+	
 }

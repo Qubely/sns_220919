@@ -3,18 +3,40 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.sns.like.dao.LikeDAO">
- 	<select id="selectLikeByUserId" parameterType="int" resultType="int">
+ 	<select id="selectLikeByPostId" parameterType="int" resultType="int">
+ 		SELECT COUNT(*)
+ 		FROM
+ 			`like`
+ 		WHERE
+ 			`postId` = #{postId}
+ 	</select>
+ 	
+ 	<select id="selectLikeByUserIdPostId" parameterType="int" resultType="int">
  		SELECT COUNT(*)
  		FROM
  			`like`
  		WHERE
  			`userId` = #{userId}
+ 			AND `postId` = #{postId}
+ 	</select>
+ 	
+ 	<select id="isDuplicantLikeByUserIdPostId" parameterType="map" resultType="boolean">
+ 		SELECT
+ 			`userId`
+			, `postId`
+			, `createdAt`
+		FROM
+			`like`
+		WHERE
+			`userId` = #{userId}
+ 			AND `postId` = #{postId}
  	</select>
  	
  	<delete id="deleteLikeByUserId" parameterType="int">
  		DELETE FROM `like`
  		WHERE
  			`userId` = #{userId}
+ 			AND `postId` = #{postId}
  	</delete>
  	
  	<insert id="insertLike" parameterType="map">

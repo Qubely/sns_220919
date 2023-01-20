@@ -49,24 +49,16 @@
 					<%-- 좋아요 --%>
 					<div class="card-like m-3">
 						<c:choose>
-							<c:when test="${isLike > 0}">
-								<a href="#" class="like-btn" data-post-id="${card.post.id}">
+							<c:when test="${card.filledLike}">
+								<a href="" class="like-btn" data-post-id="${card.post.id}">
 								<img src="/static/img/heart-icon (1).png" width="18" height="18" alt="empty heart">
-									좋아요 ${isLike}개
+									좋아요 ${card.likeCount}개
 								</a>
 							</c:when>
 							<c:otherwise>
-								<a href="#" class="like-btn" data-post-id="${card.post.id}">
+								<a href="" class="like-btn" data-post-id="${card.post.id}">
 								<img src="/static/img/heart-icon.png" width="18" height="18" alt="empty heart">
-									
-									<c:choose>
-										<c:when test="${not empty islike}">
-											<span>좋아요 ${islike}개</span>
-										</c:when>
-										<c:otherwise>
-											<span>좋아요 0개</span>
-										</c:otherwise>
-									</c:choose>
+								<span>좋아요 ${card.likeCount}개</span>
 								</a>
 							</c:otherwise>
 						</c:choose>
@@ -221,9 +213,9 @@
 		});	// 댓글 쓰기 끝
 		
 		// 좋아요
-		$('.like-btn').on('click', function() {
+		$('.like-btn').on('click', function(e) {
+			e.preventDefault();
 			let postId = $(this).data("postId");
-			
 			
 			$.ajax({
 				type:"get"

@@ -11,12 +11,20 @@ public class LikeBO {
 	@Autowired
 	private LikeDAO likeDAO;
 	
-	public Integer getLikeByUserId(int userId) {
-		return likeDAO.selectLikeByUserId(userId);
+	public Integer getLikeByPostId(int postId) {
+		return likeDAO.selectLikeByPostId(postId);
 	}
 	
-	public int deleteLikeByUserId(int userId) {
-		return likeDAO.deleteLikeByUserId(userId);
+	public Integer getLikeByUserIdPostId(int userId, int postId) {
+		return likeDAO.selectLikeByUserIdPostId(userId, postId);
+	}
+	
+	public Boolean isDuplicantLikeByUserIdPostId(int userId, int postId) {
+		return likeDAO.isDuplicantLikeByUserIdPostId(userId, postId);
+	}
+	
+	public int deleteLikeByUserIdPostId(int userId, int postId) {
+		return likeDAO.deleteLikeByUserId(userId, postId);
 	}
 	
 	public int addLike(int userId, int postId) {

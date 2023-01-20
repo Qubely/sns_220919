@@ -22,6 +22,7 @@ public class CardView {
 	private boolean filledLike;
 	
 	// 좋아요 개수
+	private Integer likeCount;
 	
 	// getters, setters
 	public Post getPost() {
@@ -46,6 +47,22 @@ public class CardView {
 
 	public void setCommentList(List<CommentView> commentList) {
 		this.commentList = commentList;
+	}
+
+	public boolean isFilledLike() {
+		return filledLike;
+	}
+
+	public void setFilledLike(boolean filledLike) {
+		this.filledLike = filledLike;
+	}
+
+	public Integer getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
 	}
 
 	

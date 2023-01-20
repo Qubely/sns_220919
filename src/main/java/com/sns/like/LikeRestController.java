@@ -29,9 +29,9 @@ public class LikeRestController {
 		
 		Integer userId = (Integer)session.getAttribute("userId");
 		if (userId != null) {
-			Integer rowCount = likeBO.getLikeByUserId(userId);
+			Integer rowCount = likeBO.getLikeByUserIdPostId(userId, postId);
 			if (rowCount > 0) {
-				rowCount = likeBO.deleteLikeByUserId(userId);
+				rowCount = likeBO.deleteLikeByUserIdPostId(userId, postId);
 			} else {
 				rowCount = likeBO.addLike(userId, postId);
 			}
