@@ -39,10 +39,5 @@ public class TestController {
 		return "test/test";
 	}
 	
-	@GetMapping("/test4")
-	@ResponseBody
-	public List<Map<String, Object>> test4() {
-		return likeDAO.selectLikeListTest();
-	}
 	
 }

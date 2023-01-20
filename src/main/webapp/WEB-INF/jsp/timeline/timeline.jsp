@@ -48,10 +48,28 @@
 					
 					<%-- 좋아요 --%>
 					<div class="card-like m-3">
-						<a href="#" class="like-btn" data-post-id="${card.post.id}">
-						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">
-							좋아요 10개
-						</a>
+						<c:choose>
+							<c:when test="${isLike > 0}">
+								<a href="#" class="like-btn" data-post-id="${card.post.id}">
+								<img src="/static/img/heart-icon (1).png" width="18" height="18" alt="empty heart">
+									좋아요 ${isLike}개
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="like-btn" data-post-id="${card.post.id}">
+								<img src="/static/img/heart-icon.png" width="18" height="18" alt="empty heart">
+									
+									<c:choose>
+										<c:when test="${not empty islike}">
+											<span>좋아요 ${islike}개</span>
+										</c:when>
+										<c:otherwise>
+											<span>좋아요 0개</span>
+										</c:otherwise>
+									</c:choose>
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</div>
 					
 					<%-- 글 --%>
@@ -100,6 +118,7 @@
 
 <script>
 	$(document).ready(function() {
+		
 		
 		// 파일 업로드 이미지 클릭 => 숨겨져 있는 file을 동작시킴
 		$('#fileUploadBtn').on('click', function(e) {
@@ -201,6 +220,7 @@
 			
 		});	// 댓글 쓰기 끝
 		
+		// 좋아요
 		$('.like-btn').on('click', function() {
 			let postId = $(this).data("postId");
 			
@@ -211,7 +231,7 @@
 				
 				, success:function(data) {
 					if (data.code == 1) {
-						
+						location.reload();
 					} else {
 						alert(data.errorMessage);
 					}
@@ -222,7 +242,7 @@
 			});
 			
 			
-		});
+		});	// 좋아요 끝
 		
 		
 	});
