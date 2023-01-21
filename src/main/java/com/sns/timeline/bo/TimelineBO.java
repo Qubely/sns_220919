@@ -54,10 +54,8 @@ public class TimelineBO {
 			
 			// 내가 좋아요를 눌렀는지 filledLike
 			if (userId != null) {
-				Boolean filledLike = likeBO.isDuplicantLikeByUserIdPostId(userId, post.getId());
-				if (filledLike != null) {
-					card.setFilledLike(filledLike);
-				}
+				boolean filledLike = likeBO.isDuplicantLikeByUserIdPostId(userId, post.getId());
+				card.setFilledLike(filledLike);
 			}
 			
 			// 좋아요 개수

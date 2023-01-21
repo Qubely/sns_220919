@@ -58,7 +58,7 @@
 							<c:otherwise>
 								<a href="" class="like-btn" data-post-id="${card.post.id}">
 								<img src="/static/img/heart-icon.png" width="18" height="18" alt="empty heart">
-								<span>좋아요 ${card.likeCount}개</span>
+									좋아요 ${card.likeCount}개
 								</a>
 							</c:otherwise>
 						</c:choose>

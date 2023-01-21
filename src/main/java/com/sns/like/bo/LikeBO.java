@@ -19,8 +19,11 @@ public class LikeBO {
 		return likeDAO.selectLikeByUserIdPostId(userId, postId);
 	}
 	
-	public Boolean isDuplicantLikeByUserIdPostId(int userId, int postId) {
-		return likeDAO.isDuplicantLikeByUserIdPostId(userId, postId);
+	public boolean isDuplicantLikeByUserIdPostId(int userId, int postId) {
+		if (likeDAO.isDuplicantLikeByUserIdPostId(userId, postId) != null) {
+			return likeDAO.isDuplicantLikeByUserIdPostId(userId, postId);
+		}
+		return false;
 	}
 	
 	public int deleteLikeByUserIdPostId(int userId, int postId) {
