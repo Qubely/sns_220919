@@ -50,13 +50,13 @@
 					<div class="card-like m-3">
 						<c:choose>
 							<c:when test="${card.filledLike}">
-								<a href="" class="like-btn" data-post-id="${card.post.id}">
+								<a href="#" class="like-btn" data-user-id="${userId}" data-post-id="${card.post.id}">
 								<img src="/static/img/heart-icon (1).png" width="18" height="18" alt="empty heart">
 									좋아요 ${card.likeCount}개
 								</a>
 							</c:when>
 							<c:otherwise>
-								<a href="" class="like-btn" data-post-id="${card.post.id}">
+								<a href="#" class="like-btn" data-user-id="${userId}" data-post-id="${card.post.id}">
 								<img src="/static/img/heart-icon.png" width="18" height="18" alt="empty heart">
 									좋아요 ${card.likeCount}개
 								</a>
@@ -215,7 +215,14 @@
 		// 좋아요
 		$('.like-btn').on('click', function(e) {
 			e.preventDefault();
-			let postId = $(this).data("postId");
+			
+			let userId = $(this).data("user-id");
+			if(userId == "") {
+				alert("로그인을 해주세요");
+				return;
+			}
+			
+			let postId = $(this).data("post-id");
 			
 			$.ajax({
 				type:"get"

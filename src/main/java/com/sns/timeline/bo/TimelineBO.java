@@ -53,13 +53,14 @@ public class TimelineBO {
 			card.setCommentList(commentList);
 			
 			// 내가 좋아요를 눌렀는지 filledLike
-			if (userId != null) {
-				boolean filledLike = likeBO.isDuplicantLikeByUserIdPostId(userId, post.getId());
-				card.setFilledLike(filledLike);
-			}
+			card.setFilledLike(likeBO.existLike(userId, post.getId()));
+//			if (userId != null) {
+//				boolean filledLike = likeBO.isDuplicantLikeByUserIdPostId(userId, post.getId());
+//				card.setFilledLike(filledLike);
+//			}
 			
 			// 좋아요 개수
-			Integer likeCount = likeBO.getLikeByPostId(post.getId());
+			Integer likeCount = likeBO.getLikeCountByPostId(post.getId());
 			card.setLikeCount(likeCount);
 			
 			cardViewList.add(card);
