@@ -20,13 +20,13 @@ public class PostBO {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private PostDAO postDAO;
-	
-	@Autowired
 	private CommentBO commentBO;
 	
 	@Autowired
 	private LikeBO likeBO;
+	
+	@Autowired
+	private PostDAO postDAO;
 	
 	@Autowired
 	private FileManagerService fileManagerService;
