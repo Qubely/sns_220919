@@ -35,10 +35,12 @@
 					<div class="p-2 d-flex justify-content-between">
 						<span class="font-weight-bold">${card.user.loginId}</span>
 						
-						<%-- 더보기 --%>
+						<%-- 더보기(내가 쓴 글일 때만 노출) --%>
+						<c:if test="${userId eq card.user.id}">
 						<a href="#" class="more-btn" data-toggle="modal" data-target="#modal" data-post-id="${card.post.id}">
 							<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
 						</a>
+						</c:if>
 					</div>
 					
 					<%-- 카드 이미지 --%>
@@ -83,10 +85,12 @@
 								<span class="font-weight-bold">${commentView.user.loginId}:</span>
 								<span>${commentView.comment.content}</span>
 								
-								<%-- 댓글 삭제 버튼 --%>
-								<a href="#" class="commentDelBtn">
+								<%-- 댓글 삭제 버튼(내가 쓴 댓글일 때만 노출) --%>
+								<c:if test="${userId eq commentView.user.id}">
+								<a href="#" class="commentDelBtn" data-post-id="${card.post.id}" data-comment-id="${commentView.comment.id}">
 									<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 								</a>
+								</c:if>
 							</div>
 						</c:forEach>
 						
@@ -104,6 +108,23 @@
 			<%--// 카드1 끝 --%>
 		</div>
 		<%--// 타임라인 영역 끝  --%>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal">
+	<%-- modal-sm : 작은 모달 창 --%>
+	<%-- modal-dialog-centered : 모달 창을 수직으로 가운데 정렬 --%>
+	<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal-content text-center">
+			<div class="py-3 border-bottom">
+				<a href="#" id="deletePostBtn">삭제하기</a>
+			</div>
+			<div class="py-3">
+				<%-- data-dismiss="modal" : 모달창 닫힘 --%>
+				<a href="#" data-dismiss="modal">취소</a>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -212,6 +233,31 @@
 			
 		});	// 댓글 쓰기 끝
 		
+		// 댓글 삭제
+		$('.commentDelBtn').on('click', function(e) {
+			e.preventDefault();
+			let commentId = $(this).data("comment-id");
+			let postId = $(this).data("post-id");
+			
+			$.ajax({
+				type:"delete"
+				, url:"/comment/delete"
+				, data:{"postId":postId, "commentId":commentId}
+			
+				, success:function(data) {
+					if (data.code == 1) {
+						alert("댓글 삭제완료.");
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error:function(e) {
+					alert("삭제 실패");
+				}
+			});
+		});
+		
 		// 좋아요
 		$('.like-btn').on('click', function(e) {
 			e.preventDefault();
@@ -243,6 +289,37 @@
 			
 		});	// 좋아요 끝
 		
+		// 더보기 버튼 클릭 (글 삭제를 위해)
+		$('.more-btn').on('click', function(e) {
+			e.preventDefault();
+			
+			let postId = $(this).data("post-id");	// getting
+			$('#modal').data('post-id', postId);	// setting 모달 태그에 data-post-id를 심어줌
+		});
+		
+		// 모달 안에 있는 삭제하기 버튼 클릭
+		$('#modal #deletePostBtn').on('click', function(e) {
+			e.preventDefault();
+			let postId = $('#modal').data('post-id');
+			
+			$.ajax({
+				type:"delete"
+				, url:"/post/delete"
+				, data:{"postId":postId}
+			
+				, success:function(data) {
+					if (data.code == 1) {
+						alert("삭제 완료.");
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error:function(e) {
+					alert("삭제 실패.");
+				}
+			});
+		});
 		
 	});
 </script>
