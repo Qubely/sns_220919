@@ -17,9 +17,12 @@ public class FileManagerService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	// 학원
-	public static final String FILE_UPLOAD_PATH = "D:\\LEEJONGSEOK\\6_spring_project\\sns\\workspace\\images/";
+//	public static final String FILE_UPLOAD_PATH = "D:\\LEEJONGSEOK\\6_spring_project\\sns\\workspace\\images/";
 	// 집
 //	public static final String FILE_UPLOAD_PATH = "D:\\Coding\\06_spring_project\\sns\\workspace\\images/";
+	// 노트북
+	public static final String FILE_UPLOAD_PATH = "C:\\Users\\Lenovo\\Desktop\\Coding\\sns\\workspace\\images/";
+	
 	
 	public String saveFile(String userLoginId, MultipartFile file) {
 		String directoryName = userLoginId + "_" + System.currentTimeMillis() + "/";
